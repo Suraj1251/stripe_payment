@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Online Fees Payment</title>
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(120deg, #00b4db, #0083b0);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #fff;
+    }
+
+    .container {
+      background: #fff;
+      color: #333;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      max-width: 500px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #0083b0;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      border-color: #00b4db;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background: #00b4db;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background: #0083b0;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Pay Education Fees</h2>
+
+    <form id="payment-form">
+      <label for="student_id">Student ID:</label>
+      <input type="text" name="student_id" required>
+
+      <label for="student_name">Student Name:</label>
+      <input type="text" name="student_name" required>
+
+      <label for="email">Email Address:</label>
+      <input type="email" name="email" required>
+
+      <label for="amount">Amount (INR):</label>
+      <input type="number" name="amount" required min="1">
+
+      <button type="submit" id="checkout-button">Pay Now</button>
+    </form>
+  </div>
+
+  <script>
+
+    // put here the Publishable key
+    const stripe = Stripe('pk_test_51PbPoSRs7vn8q6YUp68SmkVZDPkNT7YCDIxaQBSY4XYDuk6dY4GWWVH6Gxu907ihdvP7A00innwfQQF23WsqYAZh00TMAg6pCy');
+
+
+    document.getElementById('payment-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const form = e.target;
+      const data = {
+        student_id: form.student_id.value,
+        student_name: form.student_name.value,
+        email: form.email.value,
+        amount: form.amount.value
+      };
+
+      fetch('charge.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.id) {
+          stripe.redirectToCheckout({ sessionId: data.id });
+        } else {
+          alert("Error creating checkout session.");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
