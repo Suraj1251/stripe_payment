@@ -1,0 +1,100 @@
+✅ STEP 1: Create Stripe Account & Get API Keys
+Go to https://dashboard.stripe.com/register and sign up or log in.
+
+Open this link: https://dashboard.stripe.com/test/apikeys
+
+Copy:
+
+Publishable Key → pk_test_...
+
+Secret Key → sk_test_...
+
+Let’s keep these in a file later as .env or config.php.
+
+
+✅ STEP 3: Install Stripe PHP SDK
+Open Command Prompt (CMD)
+
+Navigate to your project folder:
+
+bash
+
+cd C:\xampp\htdocs\stripe_payment
+Run:
+
+bash
+Copy
+Edit
+composer require stripe/stripe-php
+❗ If you don’t have Composer installed: https://getcomposer.org/Composer-Setup.exe
+
+
+✅ STEP 10: (Optional) Email Receipt
+Stripe sends email receipt automatically when you enable it:
+
+Go to: https://dashboard.stripe.com/test/settings/emails
+
+✅ Enable “Successful payments”
+
+✅ STEP 11: Test Payment
+Check your Stripe test dashboard: https://dashboard.stripe.com/test/payments
+
+You’ll see the test transaction there.
+
+🛠️ Fix (Optional): Enable zip Extension
+You can fix this warning permanently in 2 minutes:
+
+Open:
+
+makefile
+
+C:\xampp\php\php.ini
+Find the line:
+
+
+
+;extension=zip
+and remove the semicolon (;):
+
+
+extension=zip
+Save the file.
+
+Restart Apache and CMD.
+
+To test, run:
+
+bash
+
+php -m
+
+composer require stripe/stripe-php
+
+Look for zip in the list.
+
+This is optional but good for future composer installs.
+
+
+
+✅ Stripe Dashboard to Verify
+Visit: https://dashboard.stripe.com/test/payments
+Here, you can view all test payments in real-time.
+
+📩 Stripe Auto Email
+Go to: https://dashboard.stripe.com/test/settings/emails
+
+✅ Turn ON:
+
+Email customers for successful payments
+
+
+
+📦 Extra: Install Libraries via Composer
+
+composer require dompdf/dompdf
+composer require phpmailer/phpmailer
+
+
+✅ Prerequisites (already done if you followed earlier steps):
+
+composer require stripe/stripe-php dompdf/dompdf phpmailer/phpmailer
