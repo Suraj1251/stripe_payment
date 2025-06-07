@@ -1,0 +1,12 @@
+fees_payment database name
+
+CREATE TABLE payments (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  student_id VARCHAR(20),
+  student_name VARCHAR(100),
+  email VARCHAR(100),
+  amount INT,
+  payment_status VARCHAR(50),
+  payment_id VARCHAR(100),
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
